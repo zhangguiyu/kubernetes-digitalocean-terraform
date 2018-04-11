@@ -9,6 +9,33 @@ Deploy your Kubernetes cluster on DigitalOcean using Terraform.
 * [Terraform](https://www.terraform.io/)
 * CloudFlare's PKI/TLS toolkit [cfssl](https://github.com/cloudflare/cfssl)
 
+### On Debian/GNU Linux
+
+* [Download Terraform](https://www.terraform.io/downloads.html)
+* Download kubectl
+```bash
+apt-get install curl
+$ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl
+$ chmod +x ./kubectl
+$ sudo mv ./kubectl /usr/local/bin/kubectl
+```
+* Install cfssl
+** install [github personal access token](https://github.com/settings/tokens)
+** copy token to file ~/.netrc
+```bash
+machine github.com
+    login YOURGITHUBLOGIN
+    password YOURTOKEN
+```
+** 
+```bash
+apt-get install golang-1.8
+sudo mkdir /opt/go
+chmod a+rwxt /opt/go
+export GOPATH=/opt/go/
+go get -u github.com/cloudflare/cfssl/cmd/cfssl
+```
+
 ### On Mac
 
 With brew installed, all tools can be installed with
