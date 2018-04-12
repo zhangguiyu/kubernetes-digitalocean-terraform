@@ -13,9 +13,6 @@ Deploy your Kubernetes cluster on DigitalOcean using Terraform.
 
 * [Download Terraform](https://www.terraform.io/downloads.html)
   * configure terraform
-  ```bash
-  terraform init
-  ```
 * Download kubectl
 ```bash
 apt-get install curl
@@ -103,6 +100,7 @@ The default region is `nyc3`. You can find a list of available regions from [Dig
 After setup, call `terraform apply`
 
 ```bash
+terraform init
 terraform apply
 ```
 
