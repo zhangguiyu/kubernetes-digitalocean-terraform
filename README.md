@@ -20,14 +20,14 @@ $ chmod +x ./kubectl
 $ sudo mv ./kubectl /usr/local/bin/kubectl
 ```
 * Install cfssl
-** install [github personal access token](https://github.com/settings/tokens)
-** copy token to file ~/.netrc
+  * install [github personal access token](https://github.com/settings/tokens)
+  * copy token to file ~/.netrc
 ```bash
 machine github.com
     login YOURGITHUBLOGIN
     password YOURTOKEN
 ```
-** 
+  * 
 ```bash
 apt-get install golang-1.8
 sudo mkdir /opt/go
@@ -65,24 +65,25 @@ eval `ssh-agent -s`
 ssh-add ~/.ssh/id_rsa
 ```
 
-## Invoke Terraform
+## Invoke Terraform via the script setup_terraform.sh
 
 We put our DigitalOcean token in the file `./secrets/DO_TOKEN` (this directory is mentioned in `.gitignore`, of course, so we don't leak it)
 
-Then we setup the environment variables (step into `this repository` root). Note that the first variable sets up the *number of workers*
+Then we setup the environment variables (step into `this repository` root) in setup_terraform.sh. Note that the first variable sets up the *number of workers*
 
 ```bash
+#setup_terraform.sh
 export TF_VAR_number_of_workers=3
 export TF_VAR_do_token=$(cat ./secrets/DO_TOKEN)
 export TF_VAR_ssh_fingerprint=$(ssh-keygen -E MD5 -lf ~/.ssh/id_rsa.pub | awk '{print $2}' | sed 's/MD5://g')
 ```
 
-If you are using an older version of OpenSSH (<6.9), replace the last line with
+setup_terraform.sh will auto-detect if you are using an older version of OpenSSH (<6.9), in which case it will invoke the following (automatically):
 ```bash
 export TF_VAR_ssh_fingerprint=$(ssh-keygen -lf ~/.ssh/id_rsa.pub | awk '{print $2}')
 ```
 
-There is a convenience script for you in `./setup_terraform.sh`. Invoke it as
+Invoke the script as
 
 ```bash
 . ./setup_terraform.sh
