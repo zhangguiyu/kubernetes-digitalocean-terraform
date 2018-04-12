@@ -12,6 +12,10 @@ Deploy your Kubernetes cluster on DigitalOcean using Terraform.
 ### On Debian/GNU Linux
 
 * [Download Terraform](https://www.terraform.io/downloads.html)
+  * configure terraform
+  ```bash
+  terraform init
+  ```
 * Download kubectl
 ```bash
 apt-get install curl
@@ -34,6 +38,7 @@ sudo mkdir /opt/go
 chmod a+rwxt /opt/go
 export GOPATH=/opt/go/
 go get -u github.com/cloudflare/cfssl/cmd/cfssl
+go get -u github.com/cloudflare/cfssl/cmd/cfssljson
 ```
 
 ### On Mac
@@ -65,7 +70,7 @@ eval `ssh-agent -s`
 ssh-add ~/.ssh/id_rsa
 ```
 
-## Invoke Terraform via the script setup_terraform.sh
+## Invoke Terraform via setup_terraform.sh
 
 We put our DigitalOcean token in the file `./secrets/DO_TOKEN` (this directory is mentioned in `.gitignore`, of course, so we don't leak it)
 
@@ -142,11 +147,16 @@ See the template `00-etcd.yaml`.
 The cluster master, running:
 
 * flanneld
+  * network fabric, configures network addresses on each node
 * kubelet
+  * node-agent running on each node
 * kube-proxy
 * kube-apiserver
+  * validates and configures data for the api objects, which include pods, services, replicationcontrollers, and others
 * kube-controller-manager
+  * control loop that watches the shared state of the cluster through the apiserver and makes changes attempting to move the current state towards the desired state
 * kube-scheduler
+  * policy-rich, topology-aware, workload-specific function that significantly impacts availability, performance, and capacity
 
 #### Cloud config
 

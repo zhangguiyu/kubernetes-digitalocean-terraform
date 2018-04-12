@@ -2,7 +2,7 @@
 # Usage:
 #	. ./setup_terraform.sh
 
-#export TF_VAR_do_region=sgp1        # defaults to nyc3 if not set
+export TF_VAR_do_region=sgp1        # defaults to nyc3 if not set
 export TF_VAR_number_of_workers=3
 export TF_VAR_do_token=$(cat ./secrets/DO_TOKEN)
 
